@@ -1,16 +1,79 @@
-# 🎬 Tela - Sistema de Demonstrações C-Law Experience 2025
+# 🚀 Tela Demo System - C-Law Experience 2025
 
-Sistema completo para demonstrações interativas da Tela durante o evento C-Law Experience 2025. Permite que visitantes acessem demos exclusivas via QR codes e autenticação LinkedIn, com logging automático em CSV.
+Sistema de demonstrações exclusivas da Tela para o evento C-Law Experience 2025.
 
-## 📋 Funcionalidades
+## ✨ Funcionalidades
 
-- **🔐 Autenticação LinkedIn OIDC**: Login seguro via LinkedIn
-- **📱 QR Codes**: Acesso rápido às demos via smartphone
-- **🎥 Demonstrações em Vídeo**: Player integrado do YouTube
-- **📊 CSV Logging**: Dados automáticos salvos em arquivo CSV
-- **🔄 Sessão 24h**: Acesso a todas as demos após login único
-- **🛡️ Segurança**: Rate limiting, sanitização, proteção CSRF
-- **📱 Design Responsivo**: Otimizado para mobile e desktop
+- 🔐 **Autenticação LinkedIn** via OIDC
+- 📱 **QR Codes únicos** para cada demo
+- 🎥 **Vídeos YouTube embeddados** 
+- 📡 **Logging via webhook** (n8n integration)
+- 🛡️ **Segurança robusta** (LGPD compliance)
+- ⏰ **Sessões de 24 horas**
+
+## 🔧 Configuração
+
+### Variáveis de Ambiente
+
+```bash
+# Servidor
+BASE_URL=https://demos-tela.onrender.com
+NODE_ENV=production
+
+# LinkedIn OIDC
+LINKEDIN_CLIENT_ID=sua_client_id
+LINKEDIN_CLIENT_SECRET=sua_client_secret
+
+# Webhook para dados
+WEBHOOK_URL=https://meistrari.app.n8n.cloud/webhook-test/[id]
+
+# Segurança
+SESSION_SECRET=chave_segura_64_caracteres
+```
+
+### LinkedIn Developer Setup
+
+1. Crie app em [LinkedIn Developer Console](https://developer.linkedin.com/)
+2. Configure redirect URI: `https://demos-tela.onrender.com/callback`
+3. Ative scopes: `openid`, `profile`, `email`
+
+## 📡 Webhook Data
+
+Dados enviados para n8n:
+```json
+{
+  "timestamp": "2025-01-10T14:30:45.123Z",
+  "name": "João Silva",
+  "email": "joao@empresa.com", 
+  "demo_id": "tela_transcrição",
+  "demo_title": "Transcrição de Audiência",
+  "event": "C-Law Experience 2025",
+  "ip_hash": "a1b2c3d4...",
+  "source": "demo_tela_claw_2025"
+}
+```
+
+## 🚀 Deploy
+
+### Render
+1. Configure variáveis de ambiente
+2. Deploy automático via Git
+3. Health check: `/healthz`
+
+### Demos Disponíveis
+- `tela_transcrição` - Transcrição de Audiência  
+- `tela_interpretação` - Interpretação de Imagens
+- `tela_resumo` - Resumo de Inicial
+- `tela_extração` - Extração de Dados Inicial
+
+## 🔒 Segurança
+
+- ✅ Content Security Policy
+- ✅ Rate limiting (50 req/15min produção)
+- ✅ CSRF protection via state tokens
+- ✅ IP hashing (LGPD compliance)
+- ✅ Input sanitization & validation
+- ✅ HTTPS enforcement
 
 ## 🚀 Início Rápido
 
@@ -19,6 +82,7 @@ Sistema completo para demonstrações interativas da Tela durante o evento C-Law
 - Node.js 18+ 
 - NPM ou Yarn
 - Conta LinkedIn Developer
+- Webhook endpoint (n8n ou similar)
 
 ### Instalação
 
@@ -41,58 +105,6 @@ cp .env.example .env
 npm start
 ```
 
-## ⚙️ Configuração
-
-### 1. Variáveis de Ambiente
-
-Copie `.env.example` para `.env` e configure:
-
-```bash
-# Servidor
-PORT=3000
-NODE_ENV=production
-BASE_URL=https://yourdomain.com
-
-# LinkedIn OIDC
-LINKEDIN_CLIENT_ID=your_client_id
-LINKEDIN_CLIENT_SECRET=your_client_secret
-
-# Segurança
-SESSION_SECRET=your_32_char_random_secret
-```
-
-### 2. LinkedIn Developer App
-
-1. Acesse [LinkedIn Developers](https://www.linkedin.com/developers/apps)
-2. Crie nova aplicação
-3. Configure redirect URI: `https://yourdomain.com/callback`
-4. Adicione produtos: "Sign In with LinkedIn using OpenID Connect"
-5. Copie Client ID e Client Secret
-
-### 3. Demos Configuration
-
-Configure suas demos em `demos.json`:
-
-```json
-{
-  "demo_id": {
-    "title": "Nome da Demo",
-    "youtubeUrl": "https://www.youtube.com/watch?v=VIDEO_ID"
-  }
-}
-```
-
-### 4. QR Codes
-
-Os QR codes devem apontar para as URLs das demos no formato:
-```
-https://yourdomain.com/login?demo=demo_id
-```
-
-Exemplo:
-- Demo ID: `tela_transcricao`
-- URL do QR: `https://yourdomain.com/login?demo=tela_transcricao`
-
 ## 🏗️ Estrutura do Projeto
 
 ```
@@ -100,7 +112,7 @@ tela-claw-demos/
 ├── server/
 │   ├── index.js              # Servidor principal
 │   └── services/
-│       ├── csvService.js     # Logging em CSV
+│       ├── webhookService.js # Logging via webhook
 │       └── linkedinOIDC.js   # Autenticação LinkedIn
 ├── views/
 │   ├── index.ejs            # Página inicial
@@ -110,7 +122,6 @@ tela-claw-demos/
 │   ├── callback.ejs         # Processamento OAuth
 │   └── error.ejs            # Páginas de erro
 ├── demos.json               # Configuração das demos
-├── demo_logs.csv            # Logs de acesso (gerado automaticamente)
 ├── package.json
 ├── .env.example
 └── README.md
@@ -122,113 +133,39 @@ tela-claw-demos/
 2. **📱 Mobile** abre página de login da demo (`/login?demo=demo_id`)
 3. **🔐 LinkedIn** autentica via OAuth 2.0 + OIDC
 4. **📊 Sistema** captura dados profissionais
-5. **💾 CSV** salva dados automaticamente em `demo_logs.csv`
+5. **📡 Webhook** envia dados para n8n automaticamente
 6. **🎥 Usuário** assiste demonstração exclusiva (`/watch?demo=demo_id`)
 7. **🔄 Acesso 24h** - Pode assistir todas as outras demos
 8. **📞 CTA** direcionamento para agendamento
 
-## 🛡️ Segurança
+## 🚢 Deploy no Render
 
-- **Rate Limiting**: 100 req/15min por IP
-- **CSRF Protection**: State validation
-- **Input Sanitization**: XSS prevention
-- **Helmet.js**: Security headers
-- **Session Security**: HttpOnly, Secure, SameSite
-- **HTTPS Only**: Produção apenas SSL
-- **Content Security Policy**: Strict CSP
-
-## 📊 Dados Salvos (CSV)
-
-O sistema automaticamente salva em `demo_logs.csv`:
-
-- **timestamp**: Data/hora do acesso
-- **name**: Nome do usuário
-- **email**: Email do LinkedIn
-- **demo_id**: ID da demo assistida
-- **demo_title**: Título da demo
-- **event**: C-Law Experience 2025
-
-### Formato do CSV:
-```csv
-timestamp,name,email,demo_id,demo_title,event
-2025-06-04T12:00:00.000Z,João Silva,joao@empresa.com,tela_transcricao,Transcrição de Audiência,C-Law Experience 2025
-```
-
-## 🚢 Deploy
-
-### Docker
-
-```bash
-# Build
-docker build -t tela-demos .
-
-# Run
-docker run -p 3000:3000 --env-file .env tela-demos
-```
-
-### Vercel/Netlify
-
-1. Configure variáveis de ambiente
-2. Configure build command: `npm run build`
-3. Configure start command: `npm start`
-
-### VPS/Servidor
-
-```bash
-# PM2
-npm install -g pm2
-pm2 start server/index.js --name tela-demos
-pm2 startup
-pm2 save
-
-# Nginx reverse proxy
-# Configure SSL com Let's Encrypt
-```
-
-## 📋 Scripts Disponíveis
-
-```bash
-npm start           # Iniciar servidor
-npm run dev         # Desenvolvimento com nodemon
-npm test           # Executar testes
-npm run lint       # Verificar código
-```
+1. Configure variáveis de ambiente no Render
+2. Deploy automático via Git
+3. Health check disponível em `/healthz`
 
 ## 🔧 Troubleshooting
 
 ### Erro: "Demo não encontrada"
 - Verifique se `demos.json` está correto
 - Confirme se demo ID no QR code existe
-- Teste a URL manualmente: `https://yourdomain.com/login?demo=demo_id`
 
-### Erro: "LinkedIn auth error"
-- Verifique credenciais em `.env`
-- Confirme redirect URI no LinkedIn
+### Erro: "LinkedIn auth error"  
+- Verifique credenciais LinkedIn
+- Confirme redirect URI no LinkedIn Developer Console
 - Teste em HTTPS (obrigatório em produção)
 
-### Erro: "Attio webhook failed"
-- Verifique token Attio em `.env`
-- Confirme workspace ID
-- Teste conectividade com API
-
-### Performance Lenta
-- Verifique rate limiting
-- Monitore uso de CPU/memória
-- Configure cache se necessário
+### Erro: "Webhook failed"
+- Verifique URL do webhook em `WEBHOOK_URL`
+- Teste conectividade com endpoint
 
 ## 🤝 Suporte
 
 - **📧 Email**: tech@tela.com
-- **💬 Slack**: #tela-dev
 - **📖 Docs**: [docs.tela.com](https://docs.tela.com)
-- **🐛 Issues**: GitHub Issues
-
-## 📄 Licença
-
-© 2025 Tela. Todos os direitos reservados.
 
 ---
 
-**🎯 Sistema desenvolvido especialmente para C-Law Experience 2025**
+**🎯 Sistema desenvolvido para C-Law Experience 2025**
 
 *Transformando visitantes em leads qualificados através de demonstrações interativas e tecnologia de ponta.* 

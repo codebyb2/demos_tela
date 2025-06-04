@@ -25,7 +25,7 @@ function getDemos() {
   return loadDemos();
 }
 
-const CSVService = require('./services/csvService');
+const WebhookService = require('./services/webhookService');
 const LinkedInOIDC = require('./services/linkedinOIDC');
 
 const app = express();
@@ -139,7 +139,7 @@ app.use(session({
 }));
 
 // Inicializar serviços
-const csvService = new CSVService();
+const webhookService = new WebhookService();
 const linkedinOIDC = new LinkedInOIDC();
 
 // Estado em memória para mapear state -> demoId (proteção CSRF)
@@ -282,7 +282,7 @@ app.post('/callback', async (req, res) => {
     }
     
     // Salvar dados no CSV
-    csvService.logDemoAccess({
+    webhookService.logDemoAccess({
       name: profile.name,
       email: profile.email,
       demoId,
@@ -342,7 +342,7 @@ app.get('/watch', requireAuth, (req, res) => {
   
   // Registrar acesso à demo no CSV
   if (req.session.userProfile) {
-    csvService.logDemoAccess({
+    webhookService.logDemoAccess({
       name: req.session.userProfile.name,
       email: req.session.userProfile.email,
       demoId: demo,
@@ -394,15 +394,6 @@ app.get('/healthz', (req, res) => {
     env: process.env.NODE_ENV || 'development'
   });
 });
-
-// Rota de logs (APENAS em desenvolvimento)
-if (process.env.NODE_ENV !== 'production') {
-  app.get('/logs', (req, res) => {
-    const logs = csvService.readLogs();
-    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    res.send(logs || 'Nenhum log encontrado.');
-  });
-}
 
 // Página inicial
 app.get('/', (req, res) => {

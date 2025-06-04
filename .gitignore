@@ -13,8 +13,6 @@ yarn-error.log*
 # Logs
 logs/
 *.log
-demo_logs.csv
-demo_access.csv
 
 # Runtime data
 pids

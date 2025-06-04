@@ -39,46 +39,46 @@
         }
 
         .container {
-            max-width: 500px;
+            max-width: 450px;
             width: 100%;
             text-align: center;
-            padding: 2rem 1rem;
+            padding: 1.5rem 1rem;
         }
 
         /* Logo */
         .logo-section {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .logo-img {
-            height: clamp(40px, 8vw, 60px);
+            height: clamp(28px, 5.5vw, 42px);
             width: auto;
         }
 
         /* Loading Content */
         .loading-content {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .loading-icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
             display: block;
             animation: bounce 1s infinite;
         }
 
         .loading-title {
-            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-size: clamp(1.5rem, 4vw, 1.75rem);
             font-weight: 700;
             color: var(--text-dark);
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             line-height: 1.3;
         }
 
         .loading-message {
-            font-size: clamp(1rem, 2.5vw, 1.125rem);
+            font-size: clamp(0.875rem, 2.5vw, 1rem);
             color: var(--text-gray);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             line-height: 1.6;
         }
 
@@ -187,15 +187,13 @@
         
         <!-- Loading Content -->
         <div class="loading-content">
-            <div class="loading-icon">🔐</div>
+            <div class="loading-spinner"></div>
             
             <h1 class="loading-title">Autenticando</h1>
             
             <p class="loading-message">
                 Processando seu login com LinkedIn...
             </p>
-            
-            <div class="loading-spinner"></div>
             
             <p style="font-size: 0.875rem; color: var(--text-light);">
                 Você será redirecionado automaticamente
