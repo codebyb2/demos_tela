@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'C Law 2025 - Demos' %></title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Meta tags -->
+    <meta name="description" content="Assista às demonstrações exclusivas das soluções Tela para o mercado jurídico">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <style>
+        :root {
+            --primary-black: #000000;
+            --primary-blue: #0066FF;
+            --text-dark: #1a1a1a;
+            --text-gray: #666666;
+            --text-light: #999999;
+            --background: #ffffff;
+            --surface: #f8f9fa;
+            --border: #e5e5e5;
+            --success: #10B981;
+            --error: #EF4444;
+            --linkedin: #0077B5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            width: 100%;
+        }
+
+        /* Header */
+        .header {
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: clamp(40px, 8vw, 60px);
+            width: auto;
+        }
+
+        /* Main */
+        .main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            min-height: calc(100vh - 120px);
+        }
+
+        /* Card */
+        .card {
+            background: var(--background);
+            border-radius: 20px;
+            box-shadow: 0 8px 16px -4px rgb(0 0 0 / 0.1), 0 4px 8px -2px rgb(0 0 0 / 0.1);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .card-header {
+            background: var(--primary-black);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+
+        .card-header h1 {
+            font-size: clamp(1.25rem, 4vw, 1.75rem);
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .card-header p {
+            opacity: 0.9;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .card-body {
+            padding: 2.5rem 2rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 54px;
+            width: 100%;
+            margin-bottom: 1rem;
+            border: 2px solid transparent;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px -4px rgb(0 0 0 / 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-linkedin {
+            background: var(--linkedin);
+            color: white;
+            border-color: var(--linkedin);
+        }
+
+        .btn-linkedin:hover {
+            background: #005885;
+            border-color: #005885;
+            color: white;
+        }
+
+        .btn-linkedin::before {
+            content: "💼";
+            margin-right: 0.75rem;
+            font-size: 1.125rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-black);
+            color: white;
+            border-color: var(--primary-black);
+        }
+
+        .btn-primary:hover {
+            background: #333333;
+            border-color: #333333;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-dark);
+            border-color: var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface);
+            color: var(--text-dark);
+            border-color: var(--text-gray);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .alert-error {
+            background: #FEF2F2;
+            color: #DC2626;
+            border: 1px solid #FECACA;
+        }
+
+        .alert-success {
+            background: #F0FDF4;
+            color: #166534;
+            border: 1px solid #BBF7D0;
+        }
+
+        .alert-info {
+            background: #F0F9FF;
+            color: #1E40AF;
+            border: 1px solid #BFDBFE;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 1.5rem 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        /* Loading States */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main {
+                padding: 1rem 0.5rem;
+                min-height: calc(100vh - 100px);
+            }
+
+            .card {
+                max-width: 100%;
+            }
+
+            .card-header {
+                padding: 2rem 1.5rem;
+            }
+
+            .card-body {
+                padding: 2rem 1.5rem;
+            }
+
+            .container {
+                padding: 0 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main {
+                padding: 0.5rem 0.25rem;
+            }
+
+            .card-header {
+                padding: 1.5rem 1rem;
+            }
+
+            .card-body {
+                padding: 1.5rem 1rem;
+            }
+
+            .logo-img {
+                height: clamp(40px, 8vw, 60px);
+            }
+
+            .btn {
+                padding: 0.875rem 1.5rem;
+                font-size: 0.95rem;
+            }
+
+            .container {
+                padding: 0 0.25rem;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+
+        .hidden { display: none; }
+        .block { display: block; }
+        .inline-block { display: inline-block; }
+        .flex { display: flex; }
+
+        .w-full { width: 100%; }
+        .max-w-sm { max-width: 400px; }
+        .max-w-md { max-width: 500px; }
+        .max-w-lg { max-width: 600px; }
+    </style>
+    
+    <% if (typeof additionalCSS !== 'undefined') { %>
+        <%- additionalCSS %>
+    <% } %>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <img src="https://www.tela.com/_vercel/image?url=%2Ftela-logo.png&w=320&q=100" alt="Tela Logo" class="logo-img">
+                </a>
+                
+                <% if (typeof headerActions !== 'undefined') { %>
+                    <div class="header-actions">
+                        <%- headerActions %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <%- body %>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                &copy; 2025 Tela. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animações globais
+        document.addEventListener('DOMContentLoaded', function() {
+            // Adicionar classe fade-in a elementos principais
+            const main = document.querySelector('.main');
+            if (main) {
+                main.classList.add('fade-in');
+            }
+        });
+    </script>
+    
+    <% if (typeof additionalJS !== 'undefined') { %>
+        <%- additionalJS %>
+    <% } %>
+</body>
+</html> 

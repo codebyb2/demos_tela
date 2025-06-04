@@ -1,0 +1,45 @@
+{
+  "name": "tela-claw-demos",
+  "version": "1.0.0",
+  "description": "Sistema de demonstrações interativas da Tela para C-Law Experience 2025",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js",
+    "test": "echo 'No tests specified yet' && exit 0",
+    "lint": "echo 'No linting configured yet' && exit 0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.2",
+    "jose": "^5.1.3",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "ejs": "^3.1.9"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "tela",
+    "linkedin", 
+    "demos",
+    "qr-codes",
+    "csv-logging",
+    "claw-experience",
+    "oauth"
+  ],
+  "author": "Tela",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tela/claw-demos.git"
+  }
+} 

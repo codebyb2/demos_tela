@@ -1,0 +1,18 @@
+{
+  "tela_transcrição": {
+    "title": "Transcrição de Audiência",
+    "youtubeUrl": "https://www.youtube.com/watch?v=pv3f3VEn06c&list=PLqac2YaglbzlPbk9h0dFSTMd_m3G8P3dG"
+  },
+  "tela_interpretação": {
+    "title": "Interpretação de Imagens",
+    "youtubeUrl": "https://youtu.be/ex4MzE2w7G4"
+  },
+  "tela_resumo": {
+    "title": "Resumo de Inicial",
+    "youtubeUrl": "https://youtu.be/z0Q0SLJSrJc"
+  },
+  "tela_extração": {
+    "title": "Extração de Dados Inicial",
+    "youtubeUrl": "https://youtu.be/9gkUW6hhWIY"
+  }
+} 
